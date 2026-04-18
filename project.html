@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Album — OSCAR" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Album — OSCAR" />
+  <meta property="og:url" content="https://www.oscarfaceit.com" />
+  <title>Album — OSCAR</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230A0A0A'/%3E%3Ctext x='50' y='72' font-family='sans-serif' font-size='60' font-weight='800' fill='%23C41E3A' text-anchor='middle'%3EO%3C/text%3E%3C/svg%3E" />
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor__ring" id="cursor-ring" aria-hidden="true">
+    <span class="cursor__label" id="cursor-label">VIEW</span>
+  </div>
+  <div class="cursor__dot" id="cursor-dot" aria-hidden="true"></div>
+
+  <!-- Film Grain -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ========================================
+       NAVIGATION — Sticky Top Bar
+       ======================================== -->
+  <nav class="project-nav" id="project-nav">
+    <a href="index.html" class="project-nav__back" data-magnetic>Back</a>
+    <span class="project-nav__name">OSCAR</span>
+  </nav>
+
+  <!-- ========================================
+       HEADER — Album Title + Meta
+       ======================================== -->
+  <header class="album-header" id="album-header">
+    <h1 class="album-header__title" id="album-title">ALBUM TITLE</h1>
+    <p class="album-header__subtitle" id="album-subtitle">OSKY</p>
+
+    <div class="album-meta" id="album-meta">
+      <div class="album-meta__item">
+        <span class="album-meta__label">Released</span>
+        <span class="album-meta__value" id="album-year">2025</span>
+      </div>
+      <div class="album-meta__item">
+        <span class="album-meta__label">Type</span>
+        <span class="album-meta__value" id="album-type">Album</span>
+      </div>
+      <div class="album-meta__item">
+        <span class="album-meta__label">Tracks</span>
+        <span class="album-meta__value" id="album-tracks">13</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================
+       ALBUM VISUAL — Full-Width Gradient
+       ======================================== -->
+  <section class="album-visual" id="album-visual">
+    <div class="album-visual__bg" id="album-visual-bg" style="background: linear-gradient(135deg, #C41E3A 0%, #1a0a0d 50%, #0A0A0A 100%);"></div>
+  </section>
+
+  <!-- ========================================
+       ALBUM DESCRIPTION
+       ======================================== -->
+  <section class="album-desc" id="album-desc">
+    <p id="album-desc-text">
+      Un album care redefinește sunetul. Fiecare track e o conversație cu realitatea —
+      crudă, neprelucrată, fără filtre. De la primele acorduri până la ultimul vers,
+      OSCAR demonstrează că muzica autentică nu are nevoie de scuze.
+    </p>
+    <p id="album-desc-text-2">
+      Produs cu meticulozitate și livrat cu o energie care nu se poate ignora,
+      acest proiect marchează un nou capitol. Nu e doar muzică — e o declarație.
+    </p>
+  </section>
+
+  <!-- ========================================
+       TRACKLIST
+       ======================================== -->
+  <section class="tracklist" id="tracklist">
+    <h3 class="tracklist__title">Tracklist</h3>
+    <div id="tracklist-items">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <!-- ========================================
+       ALBUM CLOSE — Listen CTA
+       ======================================== -->
+  <section class="album-close" id="album-close">
+    <h2 class="album-close__heading">ASCULTĂ<br/>ACUM</h2>
+    <div class="album-close__links">
+      <a href="https://open.spotify.com/artist/oscar" target="_blank" rel="noopener noreferrer" class="album-close__link" data-magnetic>Spotify</a>
+      <a href="https://music.apple.com/artist/oscar" target="_blank" rel="noopener noreferrer" class="album-close__link" data-magnetic>Apple Music</a>
+      <a href="https://www.youtube.com/@oscarfaceit" target="_blank" rel="noopener noreferrer" class="album-close__link" data-magnetic>YouTube</a>
+      <a href="https://soundcloud.com/oscarfaceit" target="_blank" rel="noopener noreferrer" class="album-close__link" data-magnetic>SoundCloud</a>
+    </div>
+  </section>
+
+  <!-- Project Page Script -->
+  <script>
+    /* ============================================
+       OSCAR — Album Detail Page Controller
+       ============================================ */
+
+    // ── Album Data ─────────────────────────
+    const albums = {
+      'the-playlist': {
+        title: 'THE PLAYLIST',
+        subtitle: '2025',
+        year: '2025',
+        type: 'Album',
+        tracks: '13',
+        gradient: 'linear-gradient(135deg, #C41E3A 0%, #1a0a0d 50%, #0A0A0A 100%)',
+        desc1: 'The Playlist nu e doar o colecție de piese — e un manifest. Un soundtrack pentru nopțile care contează și pentru zilele care nu se uită. Oscar adună influențe din hip-hop, trap și sonorități alternative într-un proiect care redefinește ce înseamnă rap românesc.',
+        desc2: 'Fiecare track are o poveste. Fiecare beat e ales cu intenție. De la energie brută la introspecție lirică, The Playlist e dovada că Oscar nu urmează trenduri — le creează.',
+        tracklist: [
+          { num: '01', name: 'INTRO', dur: '1:22' },
+          { num: '02', name: 'PLAYA', dur: '3:15' },
+          { num: '03', name: 'NOAPTEA', dur: '2:58' },
+          { num: '04', name: 'SĂNĂTOS', dur: '3:41' },
+          { num: '05', name: 'INTERLUDE', dur: '0:48' },
+          { num: '06', name: 'DIN NOU', dur: '3:22' },
+          { num: '07', name: 'FLOW', dur: '2:55' },
+          { num: '08', name: 'STREAȘIN', dur: '3:10' },
+          { num: '09', name: 'PĂMÂNT', dur: '3:33' },
+          { num: '10', name: 'SKIT', dur: '0:35' },
+          { num: '11', name: 'ZBOR', dur: '3:18' },
+          { num: '12', name: 'REVELION', dur: '4:02' },
+          { num: '13', name: 'OUTRO', dur: '1:45' },
+        ]
+      },
+      'osky': {
+        title: 'OSKY',
+        subtitle: '2023',
+        year: '2023',
+        type: 'Album',
+        tracks: '10',
+        gradient: 'linear-gradient(135deg, #2d1b2e 0%, #1a1a2e 50%, #0A0A0A 100%)',
+        desc1: 'OSKY e alter ego-ul lui Oscar — versiunea mai întunecată, mai experimentală, mai personală. Un album care explorează identitatea, presiunea și libertatea de a fi cine vrei, nu cine se așteaptă.',
+        desc2: 'Sunetul se mută în teritorii noi — producții atmosferice, flow-uri care fluidizează între cadențe, și versuri care citează viața reală. OSKY e dovada că arta adevărată vine din interior.',
+        tracklist: [
+          { num: '01', name: 'OSKY INTRO', dur: '1:10' },
+          { num: '02', name: 'IDENTITATE', dur: '3:05' },
+          { num: '03', name: 'UMBRE', dur: '3:22' },
+          { num: '04', name: 'LIBER', dur: '2:48' },
+          { num: '05', name: 'ÎNTRE LUMI', dur: '3:35' },
+          { num: '06', name: 'REFLEXIE', dur: '3:12' },
+          { num: '07', name: 'NOUA ZI', dur: '2:55' },
+          { num: '08', name: 'CURENT', dur: '3:28' },
+          { num: '09', name: 'ECOU', dur: '3:40' },
+          { num: '10', name: 'OSKY OUTRO', dur: '1:55' },
+        ]
+      },
+      'oscar-face-it': {
+        title: 'OSCAR FACE IT',
+        subtitle: '2021',
+        year: '2021',
+        type: 'Album',
+        tracks: '12',
+        gradient: 'linear-gradient(135deg, #0f3443 0%, #1b2e2d 50%, #0A0A0A 100%)',
+        desc1: 'Albumul care a definit un nume. Oscar Face It e declarația de intenție — un proiect care a pus bazele a tot ce a urmat. De la versuri crude la producții care respiră, fiecare piesă e o amprentă.',
+        desc2: 'Aici totul a început. Energie neîntreruptă, versuri care au rezonat cu o generație întreagă, și un sunet care a demonstrat că poți face muzică reală fără compromis. Face It — sau las-o.',
+        tracklist: [
+          { num: '01', name: 'FACE IT INTRO', dur: '1:30' },
+          { num: '02', name: 'DECLARAȚIE', dur: '3:15' },
+          { num: '03', name: 'STRADĂ', dur: '3:02' },
+          { num: '04', name: 'FĂRĂ FILTRU', dur: '2:48' },
+          { num: '05', name: 'PRESIUNE', dur: '3:20' },
+          { num: '06', name: 'INTERLUDE', dur: '0:55' },
+          { num: '07', name: 'NOAPTE BUNĂ', dur: '3:10' },
+          { num: '08', name: 'SINGUR', dur: '2:55' },
+          { num: '09', name: 'SĂNĂTOS', dur: '3:35' },
+          { num: '10', name: 'REALITATE', dur: '3:18' },
+          { num: '11', name: 'FINAL', dur: '3:42' },
+          { num: '12', name: 'FACE IT OUTRO', dur: '1:15' },
+        ]
+      }
+    };
+
+    // ── Parse query param and populate page ──
+    const params = new URLSearchParams(window.location.search);
+    const albumKey = params.get('album') || 'the-playlist';
+    const album = albums[albumKey] || albums['the-playlist'];
+
+    // Populate content
+    document.getElementById('album-title').textContent = album.title;
+    document.getElementById('album-subtitle').textContent = album.subtitle;
+    document.getElementById('album-year').textContent = album.year;
+    document.getElementById('album-type').textContent = album.type;
+    document.getElementById('album-tracks').textContent = album.tracks;
+    document.getElementById('album-visual-bg').style.background = album.gradient;
+    document.getElementById('album-desc-text').textContent = album.desc1;
+    document.getElementById('album-desc-text-2').textContent = album.desc2;
+
+    document.title = `${album.title} — OSCAR`;
+
+    // Build tracklist
+    const tracklistContainer = document.getElementById('tracklist-items');
+    album.tracklist.forEach(track => {
+      const item = document.createElement('div');
+      item.className = 'tracklist__item';
+      item.innerHTML = `
+        <span class="tracklist__num">${track.num}</span>
+        <span class="tracklist__name">${track.name}</span>
+        <span class="tracklist__dur">${track.dur}</span>
+      `;
+      tracklistContainer.appendChild(item);
+    });
+
+    // ── GSAP + ScrollTrigger + Lenis ──────
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    // ── Custom Cursor ─────────────────────
+    const body = document.body;
+    const cursorRing = document.querySelector('#cursor-ring');
+    const cursorDot = document.querySelector('#cursor-dot');
+
+    if (cursorRing && cursorDot && window.matchMedia('(pointer: fine)').matches) {
+      let cursorRevealed = false;
+      let mouseX = -1, mouseY = -1;
+      const xRing = gsap.quickTo(cursorRing, 'x', { duration: 0.6, ease: 'power3.out' });
+      const yRing = gsap.quickTo(cursorRing, 'y', { duration: 0.6, ease: 'power3.out' });
+      const xDot = gsap.quickTo(cursorDot, 'x', { duration: 0.1, ease: 'power2.out' });
+      const yDot = gsap.quickTo(cursorDot, 'y', { duration: 0.1, ease: 'power2.out' });
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!cursorRevealed) {
+          gsap.set([cursorRing, cursorDot], { opacity: 1 });
+          cursorRevealed = true;
+        }
+        xRing(mouseX);
+        yRing(mouseY);
+        xDot(mouseX);
+        yDot(mouseY);
+      });
+
+      function updateCursorStateFromPoint() {
+        if (mouseX < 0) return;
+        const el = document.elementFromPoint(mouseX, mouseY);
+        if (!el) return;
+        const isInteractive = el.closest('a, button, [data-magnetic]');
+        body.classList.toggle('cursor--link', !!isInteractive);
+      }
+
+      lenis.on('scroll', updateCursorStateFromPoint);
+
+      document.querySelectorAll('a, button, [data-magnetic]').forEach(el => {
+        el.addEventListener('mouseenter', () => body.classList.add('cursor--link'));
+        el.addEventListener('mouseleave', () => body.classList.remove('cursor--link'));
+      });
+    }
+
+    // ── Magnetic Links ────────────────────
+    document.querySelectorAll('[data-magnetic]').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: 'power2.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1.2, 0.4)' });
+      });
+    });
+
+    // ── Scroll-Triggered Reveals ──────────
+    const revealElements = document.querySelectorAll(
+      '.album-header__title, .album-header__subtitle, .album-meta__item, .album-desc p, .tracklist__title, .album-close__heading'
+    );
+
+    revealElements.forEach(el => {
+      gsap.from(el, {
+        y: 40,
+        opacity: 0,
+        filter: 'blur(15px)',
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    });
+
+    // Tracklist items stagger
+    const trackItems = document.querySelectorAll('.tracklist__item');
+    trackItems.forEach((item, i) => {
+      gsap.from(item, {
+        x: -30,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        delay: i * 0.03,
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 90%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    });
+
+    // Album visual clip-path reveal
+    const albumVisual = document.querySelector('.album-visual__bg');
+    if (albumVisual) {
+      gsap.from(albumVisual, {
+        clipPath: 'inset(10% 10% 10% 10%)',
+        opacity: 0.3,
+        scale: 1.05,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.album-visual',
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+
+    // Listen CTA links
+    document.querySelectorAll('.album-close__link').forEach((link, i) => {
+      gsap.from(link, {
+        y: 20, opacity: 0,
+        duration: 0.6, ease: 'power3.out',
+        delay: i * 0.05,
+        scrollTrigger: {
+          trigger: link,
+          start: 'top 92%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    });
+
+    // ── Page Entry Transition ─────────────
+    const entryOverlay = document.createElement('div');
+    entryOverlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background-color: #0A0A0A;
+      transform-origin: top;
+      pointer-events: none;
+    `;
+    document.body.appendChild(entryOverlay);
+
+    gsap.to(entryOverlay, {
+      scaleY: 0,
+      duration: 0.8,
+      ease: 'power4.inOut',
+      delay: 0.1,
+      onComplete: () => {
+        entryOverlay.remove();
+      },
+    });
+
+    // ── Resize Handler ────────────────────
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { ScrollTrigger.refresh(); }, 250);
+    });
+  </script>
+
+</body>
+</html>
